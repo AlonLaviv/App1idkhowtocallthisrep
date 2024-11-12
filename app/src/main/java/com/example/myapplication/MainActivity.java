@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String username = sharedPreferences.getString("username", "defaultName");
-        textView.setText("hello " +username);
+        textView.setText(username);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString( "username", usernameInput);
                     editor.apply();
-                    textView.setText("hello " +usernameInput);
+                    textView.setText(usernameInput);
                     Toast.makeText(MainActivity.this, "Username updated!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Please enter a username.", Toast.LENGTH_SHORT).show();
                 }
+                Intent i = new Intent(MainActivity.this, MainActivity2.class);
+                i.putExtra("name",usernameInput);
+                startActivity(i);
             }
         });
     }
